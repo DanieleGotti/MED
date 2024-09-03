@@ -16,7 +16,6 @@ Per accedere al software nella pagina di login inserire le seguenti credeziali:
  - Username: __i__ Password: __i__, per accedere come infermiere
  - Username: __o__ Password: __o__, per accedere come operatore
 
-Nel software sono stati già inseriti alcuni pazienti default di esempio. Qualora si desideri eliminarli, è necessario procedere trasferendoli in un reparto specifico e successivamente dimetterli.
 ## Componenti del gruppo
 - [__Daniele Gotti, matricola 1079011__](https://github.com/DanieleGotti)
 - [__Filippo Antonio Bolis, matricola 1079493__](https://github.com/FilippoBolis)
