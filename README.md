@@ -1,6 +1,6 @@
 # MED - Medical Environment Database
 versione 1.0.0
-![logo](https://github.com/se4med/Tesi/blob/main/Bolis_Gotti/doc/immagini/logo.png)
+![logo](doc/immagini/logo.png)
 Lo scopo del progetto è quello di implementare una soluzione software alternativa volta alla gestione automatica (raccolta, scrittura e consultazione) dei dati che accompagnano il paziente dalla sua accettazione alla dimissione e contribuendo a raccogliere una serie di rilevazioni sui parametri vitali, al fine di migliorare 
 l’efficienza ospedaliera e il mantenimento dei dati, il tutto interagendo con un'interfaccia grafica (GUI).
 
