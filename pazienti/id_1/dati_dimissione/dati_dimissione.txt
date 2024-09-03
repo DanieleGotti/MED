@@ -1,0 +1,1 @@
+La cartella dati_dimissione contiene la lettera di dimissione e altri documenti relativi alle dimissioni.

@@ -1,0 +1,83 @@
+package gestore_db;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.*;
+
+/**
+ * Classe per la creazione del database e delle tabelle
+ */
+public class CreateDB {
+	//pattern singleton
+	private static CreateDB istanza= new CreateDB();
+	
+	private CreateDB() {}
+	
+	public static CreateDB getIstanza() {
+		return istanza;
+	}
+	
+	public static String DB_REL_FILE = "../progetto_database/db/db.db3";
+	public static String DB_URL = "jdbc:sqlite:" + DB_REL_FILE;
+
+	/**
+	 * Genera il database, se non ne è già presente uno
+	 * @throws IOException
+	 * @throws SQLException
+	 */
+	public void creaDB() throws IOException, SQLException {
+		if (new File(DB_REL_FILE).exists()) {
+			System.out.println("Il DB gia' esiste");
+		} else {
+			DriverManager.getConnection(DB_URL);
+			System.out.println("Il DB e' stato creato");
+
+		}
+	}
+
+	/**
+	 * crea le tabelle nel database
+	 * @throws IOException
+	 * @throws SQLException
+	 */
+	public void creaTable() throws IOException, SQLException {
+		Connection conn = DriverManager.getConnection(DB_URL);
+		if (conn != null) {
+			Statement stmt = conn.createStatement();
+			String tabellaPersonale = "CREATE TABLE PERSONALE (CODICE TEXT, NOME TEXT, COGNOME TEXT, MANSIONE TEXT, PASSWORD TEXT, RUOLO TEXT, PRIMARY KEY(CODICE,PASSWORD))";
+			String tabellaDegente = "CREATE TABLE DEGENTE (CODICE TEXT, COUNT INT, NOME TEXT, COGNOME TEXT, SESSO TEXT, GENERE TEXT, ETA INT, DATA_ARRIVO DATE, ORA_ARRIVO TIME, URGENZA TEXT, POSIZIONE TEXT, PRIMARY KEY (CODICE,COUNT))";
+			String tabellaDiariaInf = "CREATE TABLE DIARIAINF (CODICE INT, CODICE_DEGENTE TEXT, COUNT_DEGENTE INT, CODICE_INFERMIERE TEXT, DATA DATE, ORA TIME, NOTE_PARTICOLARI TEXT, IMPORTANTE BOOLEAN, FARMACO TEXT, FOREIGN KEY (CODICE_DEGENTE) REFERENCES DEGENTE(CODICE), FOREIGN KEY (COUNT_DEGENTE) REFERENCES DEGENTE(COUNT), PRIMARY KEY (CODICE,CODICE_DEGENTE,COUNT_DEGENTE))";
+			String tabellaDiariaMed = "CREATE TABLE DIARIAMED (CODICE INT, CODICE_DEGENTE TEXT, COUNT_DEGENTE INT, CODICE_MEDICO TEXT, STORICO TEXT , MOTIVO TEXT, REPARTO_CONSIGLIATO TEXT, FARMACI TEXT,DATA DATE,ORA TIME, ALLERGIE TEXT, FOREIGN KEY (CODICE_DEGENTE) REFERENCES DEGENTE(CODICE), FOREIGN KEY (COUNT_DEGENTE) REFERENCES DEGENTE(COUNT), PRIMARY KEY (CODICE,CODICE_DEGENTE,COUNT_DEGENTE))";
+			String tabellaAssegnazioneLetto = "CREATE TABLE ASSEGNAZIONELETTO (CODICE_DEGENTE TEXT, COUNT_DEGENTE INT, CODICE_REPARTO TEXT, NOME_MODULO TEXT, NUMERO_LETTO INT,DATA_ASSEGNAZIONE DATE, FOREIGN KEY (CODICE_DEGENTE) REFERENCES DEGENTE(CODICE), FOREIGN KEY (COUNT_DEGENTE) REFERENCES DEGENTE(COUNT), FOREIGN KEY (CODICE_REPARTO) REFERENCES LETTO(CODICE_REPARTO), FOREIGN KEY (NOME_MODULO) REFERENCES LETTO(NOME_MODULO), FOREIGN KEY (NUMERO_LETTO) REFERENCES LETTO(NUMERO), PRIMARY KEY (CODICE_REPARTO,CODICE_DEGENTE,COUNT_DEGENTE,NOME_MODULO,NUMERO_LETTO))";
+			String tabellaReparto = "CREATE TABLE REPARTO (CODICE TEXT,NOME_REPARTO TEXT, PRIMARY KEY(CODICE))";
+			String tabellaModulo = "CREATE TABLE MODULO (CODICE_REPARTO TEXT, NOME TEXT, FOREIGN KEY (CODICE_REPARTO) REFERENCES REPARTO (CODICE), PRIMARY KEY(CODICE_REPARTO,NOME))";
+			String tabellaLetto = "CREATE TABLE LETTO (CODICE_REPARTO TEXT, NOME_MODULO TEXT, NUMERO INT, FOREIGN KEY (CODICE_REPARTO) REFERENCES REPARTO(CODICE), FOREIGN KEY(NOME_MODULO) REFERENCES MODULO (NOME), PRIMARY KEY(CODICE_REPARTO,NOME_MODULO,NUMERO))";
+			String tabellaRilevazione = "CREATE TABLE RILEVAZIONE (ID INT , CODICE_DEGENTE TEXT, COUNT_DEGENTE INT, CODICE_INFERMIERE TEXT, TEMPERATURA DOUBLE,PRESSIONE_MAX INT, PRESSIONE_MIN INT, GLICEMIA INT ,DATA DATE,ORA TIME, FREQ_CARD INT, DOLORE INT,PRIMARY KEY(ID,CODICE_DEGENTE,COUNT_DEGENTE),FOREIGN KEY(CODICE_DEGENTE) REFERENCES DEGENTE (CODICE), FOREIGN KEY(COUNT_DEGENTE) REFERENCES DEGENTE (COUNT))";
+			String tabellaDimesso = "CREATE TABLE DIMESSO (ID INT, CODICE_DEGENTE TEXT, COUNT_DEGENTE INT, CODICE_MEDICO TEXT, MOTIVO TEXT, DATA_DIMISSIONE DATE, ORA_DIMISSIONE TIME, PRIMARY KEY(ID), FOREIGN KEY(CODICE_MEDICO) REFERENCES PERSONALE(CODICE), FOREIGN KEY(CODICE_DEGENTE) REFERENCES DEGENTE (CODICE), FOREIGN KEY(COUNT_DEGENTE) REFERENCES DEGENTE (COUNT))";
+			String tabellaVisitaIntervento = "CREATE TABLE VISITA_INTERVENTO (ID INT, TIPO TEXT, CODICE_DEGENTE TEXT, COUNT_DEGENTE INT, CODICE_MEDICO TEXT, MOTIVO TEXT, DATA_PRENOTAZIONE DATE, ORA_PRENOTAZIONE TIME, PRIMARY KEY(ID), FOREIGN KEY(CODICE_MEDICO) REFERENCES PERSONALE(CODICE), FOREIGN KEY(CODICE_DEGENTE) REFERENCES DEGENTE (CODICE), FOREIGN KEY(COUNT_DEGENTE) REFERENCES DEGENTE (COUNT))";
+			stmt.executeUpdate(tabellaAssegnazioneLetto);
+			stmt.executeUpdate(tabellaRilevazione);
+			stmt.executeUpdate(tabellaPersonale);
+			stmt.executeUpdate(tabellaDegente);
+			stmt.executeUpdate(tabellaDiariaInf);
+			stmt.executeUpdate(tabellaDiariaMed);
+			stmt.executeUpdate(tabellaReparto);
+			stmt.executeUpdate(tabellaModulo);
+			stmt.executeUpdate(tabellaLetto);
+			stmt.executeUpdate(tabellaDimesso);
+			stmt.executeUpdate(tabellaVisitaIntervento);
+			stmt.close();
+			conn.close();
+			System.out.println("Table created successfully");
+		}
+
+	}
+
+	public static void main(String[] args) throws IOException, SQLException {
+		getIstanza().creaDB();
+		getIstanza().creaTable();
+	}
+
+}

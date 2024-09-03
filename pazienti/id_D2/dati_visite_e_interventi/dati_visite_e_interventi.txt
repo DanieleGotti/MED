@@ -1,0 +1,1 @@
+La cartella dati_visite_e_interventi contiene tutti i documenti relativi a visite e interventi, inclusi referti, consensi informati, ecc.

@@ -1,0 +1,1 @@
+La cartella dati_visite_e_interventi contiene tutti i documenti relativi al periodo di degenza, inclusi piani terapeutici, prescrizioni mediche, ecc.
