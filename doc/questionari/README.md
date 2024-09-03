@@ -11,4 +11,4 @@ Grazie per il tuo contributo.
 
 # Questionario Valutazione MED
 
-[Link al questionario (Google Moduli)]([https://forms.gle/bxEA2akpmdtvE19PA](https://docs.google.com/forms/d/e/1FAIpQLSfC4Z1I9emsyEwlhKY_586MypNVXNiVi__JR-iJotAPRAhYMQ/viewform?usp=sf_link))
+[Link al questionario (Google Moduli)](https://docs.google.com/forms/d/e/1FAIpQLSfC4Z1I9emsyEwlhKY_586MypNVXNiVi__JR-iJotAPRAhYMQ/viewform?usp=sf_link)
